@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const {sendEmailService} = require('./sendEmail') 
+const nodemailer = require('nodemailer')
 
 // habilida dotenv
 require('dotenv').config()
@@ -24,9 +25,34 @@ app.post('/', (req, res)=>{
         return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
     }
 
-    sendEmailService(email, toEmail, subject, text)
+    // sendEmailService(email, toEmail, subject, text)
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            type: 'OAuth2',
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+            clientId: process.env.OAUTH_CLIENTID,
+            clientSecret: process.env.OAUTH_CLIENT_SECRET,
+            refreshToken: process.env.OAUTH_REFRESH_TOKEN
+        }
+    });
 
-    res.status(200).send({msg: "Email enviado com sucesso!"})
+    let mailOptions = {
+        to: toEmail,
+        subject: subject,
+        text: `Email enviado de ${email}. ${text}`
+    };
+
+    transporter.sendMail(mailOptions, function (err, data) {
+        if (err) {
+            res.status(400).send({msg: "Error " + err});
+        } else {
+            res.status(200).send({msg: "Email sent successfully"});
+        }
+    });
+
+    // res.status(200).send({msg: "Email enviado com sucesso!"})
 })
 
 const PORT = process.env.PORT || 3000
