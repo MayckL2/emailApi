@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const {sendEmailService} = require('./sendEmail') 
 const nodemailer = require('nodemailer')
 
 // habilida dotenv
