@@ -8,6 +8,7 @@ require('dotenv').config()
 
 // habilida uso de json
 app.use(express.urlencoded())
+app.use(express.json())
 
 // CORS
 app.use((req, res, next) => {
