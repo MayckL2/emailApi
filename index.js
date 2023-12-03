@@ -20,11 +20,10 @@ app.use((req, res, next) => {
 app.post('/', (req, res)=>{
     const {email, toEmail, subject, text} = req.body
 
-    // if(!email || !subject || !text){
-      //  return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
-    //}
+     if(!email || !toEmail || !subject || !text){
+        return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
+    }
 
-    // sendEmailService(email, toEmail, subject, text)
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
