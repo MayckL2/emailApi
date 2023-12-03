@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer')
 require('dotenv').config()
 
 // habilida uso de json
-app.use(express.json())
+app.use(express.urlencoded())
 
 // CORS
 app.use((req, res, next) => {
