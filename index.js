@@ -20,9 +20,7 @@ app.use((req, res, next) => {
 app.post('/', (req, res)=>{
     const {email, toEmail, subject, text} = req.body
 
-     if(email || toEmail || subject || text){
-        console.log("dados ok")
-     }else{
+     if(email == "" || toEmail == "" || subject == "" || text == ""){
         return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
     }
 
