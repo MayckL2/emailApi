@@ -20,8 +20,20 @@ app.use((req, res, next) => {
 app.post('/', (req, res)=>{
     const {email, toEmail, subject, text} = req.body
 
-     if(!email || !toEmail || !subject || !text){
-        return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
+     //if(!email || !toEmail || !subject || !text){
+      //  return res.status(401).send({msg: "Envie email, toEmail, subject e text para enviar email..."})
+    //}
+    if(!email){
+        return res.status(401).send({msg: "Envie o email..."})
+    }
+    if(!subject){
+        return res.status(401).send({msg: "Envie o assunto..."})
+    }
+    if(!toEmail){
+        return res.status(401).send({msg: "Envie o email para..."})
+    }
+    if(!text){
+        return res.status(401).send({msg: "Envie o texto..."})
     }
 
     let transporter = nodemailer.createTransport({
@@ -37,9 +49,8 @@ app.post('/', (req, res)=>{
     });
 
     let mailOptions = {
-        email: email,
         to: toEmail,
-        subject: subject,
+        subject: subject ? subject : 'Assunto',
         text: `Email enviado de ${email}. ${text}`
     };
 
