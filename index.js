@@ -52,7 +52,11 @@ app.post('/', (req, res)=>{
     let mailOptions = {
         to: toEmail,
         subject: subject ? subject : 'Assunto',
-        text: `Email enviado por ${email}. ${text}`
+        html: ` 
+        ${text}
+        <hr>
+        <h4>Email enviado por <span style="color: purple, font-weight: bold">${email}</span></h4>
+        `
     };
 
     transporter.sendMail(mailOptions, function (err, data) {
